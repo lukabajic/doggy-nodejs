@@ -1,3 +1,5 @@
+const https = require("https");
+const fs = require("fs");
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -46,9 +48,16 @@ app.use("/auth", authRoutes);
 mongoose
   .connect(process.env.MONGO_URL, mongoDBOptions)
   .then(() => {
-    app.listen(port, () => {
-      console.log("Listening to requests on port: ", port);
-    });
+    https
+      .createServer(
+        {
+          key: fs.readFileSync("./key.pem"),
+          cert: fs.readFileSync("./cert.pem"),
+          passphrase: "luka",
+        },
+        app
+      )
+      .listen(port);
   })
   .catch((err) => {
     app.close();
