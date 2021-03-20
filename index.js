@@ -39,9 +39,7 @@ app.use((req, res, next) => {
 
 // index page
 app.get("/", (req, res) => {
-  res.writeHead(200);
-  res.end("hello world\n");
-  // res.render("index");
+  res.render("index");
 });
 
 // listen to routes
@@ -55,9 +53,9 @@ const options = {
 mongoose
   .connect(process.env.MONGO_URL, mongoDBOptions)
   .then(() => {
-    process.env.CONFIG = "prod"
-      ? https.createServer(options, app).listen(port)
-      : app.listen(port);
+    process.env.CONFIG = "dev"
+      ? app.listen(port)
+      : https.createServer(options, app).listen(port);
   })
   .catch((err) => {
     console.log(err);
