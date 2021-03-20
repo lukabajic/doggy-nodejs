@@ -1,0 +1,15 @@
+{
+  "name": "doggyapp-nodejs",
+  "version": "1.0.0",
+  "description": "RESTful API for DoggyApp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://app.buddy.works/epicss/doggyapp-nodejs"
+  },
+  "author": "epicss.io",
+  "license": "ISC"
+}
