@@ -50,4 +50,7 @@ mongoose
       console.log("Listening to requests on port: ", port);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    app.close();
+    console.log(err);
+  });
