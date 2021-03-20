@@ -1,12 +1,18 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-const port = process.env.port || 8080;
-const serverUrl =
-  process.env.CONFIG === "prod"
-    ? `http://doggyapp-api.epicss.dev:${port}`
-    : `http://localhost:${port}`;
+// import routes
+const authRoutes = require("./routes/auth");
+
+const port = process.env.PORT || 8080;
+const mongoDBOptions = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+};
 
 const app = express();
 
@@ -34,8 +40,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(port, () => {
-  console.log(
-    `Listening to requests on: ${serverUrl} with '${process.env.CONFIG}' config.`
-  );
-});
+// listen to routes
+app.use("/auth", authRoutes);
+
+mongoose
+  .connect(process.env.MONGO_URL, mongoDBOptions)
+  .then(() => {
+    app.listen(port, () => {
+      console.log("Listening to requests on port: ", port);
+    });
+  })
+  .catch((err) => console.log(err));
