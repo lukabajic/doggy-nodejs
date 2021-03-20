@@ -24,11 +24,6 @@ app.use(express.json());
 // use ejs as view engine
 app.set("view engine", "ejs");
 
-// index page
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
 // CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -42,24 +37,28 @@ app.use((req, res, next) => {
   next();
 });
 
+// index page
+app.get("/", (req, res) => {
+  res.writeHead(200);
+  res.end("hello world\n");
+  // res.render("index");
+});
+
 // listen to routes
 app.use("/auth", authRoutes);
+
+const options = {
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem"),
+};
 
 mongoose
   .connect(process.env.MONGO_URL, mongoDBOptions)
   .then(() => {
-    https
-      .createServer(
-        {
-          key: fs.readFileSync("./key.pem"),
-          cert: fs.readFileSync("./cert.pem"),
-          passphrase: "luka",
-        },
-        app
-      )
-      .listen(port);
+    process.env.CONFIG = "prod"
+      ? https.createServer(options, app).listen(port)
+      : app.listen(port);
   })
   .catch((err) => {
-    app.close();
     console.log(err);
   });
