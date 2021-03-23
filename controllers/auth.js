@@ -17,6 +17,30 @@ const FACEBOOK_CLIENT_SECRET = "553c8c6011689dd6ac36830dc41fd61a";
 
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
+const userResponse = (user, token) => ({
+  statusCode: 201,
+  token,
+  expiresIn: 14 * 24 * 60 * 60 * 1000,
+  user: userData(user),
+});
+
+const externalAuth = async ({ email, ...rest }) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    const user = new User({ email, ...rest });
+    const result = await user.save();
+
+    const token = generateToken(result._id, email);
+
+    res.status(201).json(userResponse(result, token));
+  } else {
+    const token = generateToken(user._id, email);
+
+    res.status(200).json(userResponse(user, token));
+  }
+};
+
 exports.register = async (req, res, next) => {
   const { email, password, fullName, phone } = req.body;
 
@@ -32,12 +56,7 @@ exports.register = async (req, res, next) => {
 
     await sendVerificationMail(token, email);
 
-    res.status(201).json({
-      statusCode: 201,
-      token,
-      expiresIn: 14 * 24 * 60 * 60 * 1000,
-      user: userData(result),
-    });
+    res.status(201).json(userResponse(result, token));
   } catch (err) {
     catchError(res, err);
   }
@@ -53,12 +72,7 @@ exports.login = async (req, res, next) => {
 
     const token = generateToken(user._id, user.email);
 
-    res.status(200).json({
-      statusCode: 200,
-      token,
-      expiresIn: 14 * 24 * 60 * 60 * 1000,
-      user: userData(user),
-    });
+    res.status(201).json(userResponse(user, token));
   } catch (err) {
     catchError(res, err);
   }
@@ -74,30 +88,7 @@ exports.google = async (req, res, next) => {
     });
     const { email, name: fullName, phone } = await ticket.getPayload();
 
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      const user = new User({ email, fullName, phone });
-      const result = await user.save();
-
-      const token = generateToken(result._id, email);
-
-      res.status(201).json({
-        statusCode: 201,
-        token,
-        expiresIn: 14 * 24 * 60 * 60 * 1000,
-        user: userData(result),
-      });
-    } else {
-      const token = generateToken(user._id, email);
-
-      res.status(201).json({
-        statusCode: 201,
-        token,
-        expiresIn: 14 * 24 * 60 * 60 * 1000,
-        user: userData(user),
-      });
-    }
+    externalAuth({ email, fullName, phone });
   } catch (err) {
     catchError(res, err);
   }
@@ -119,30 +110,7 @@ exports.facebook = async (req, res) => {
     });
     const { name: fullName, email } = await response.json();
 
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      const user = new User({ email, fullName });
-      const result = await user.save();
-
-      const token = generateToken(result._id, email);
-
-      res.status(201).json({
-        statusCode: 201,
-        token,
-        expiresIn: 14 * 24 * 60 * 60 * 1000,
-        user: userData(result),
-      });
-    } else {
-      const token = generateToken(user._id, email);
-
-      res.status(201).json({
-        statusCode: 201,
-        token,
-        expiresIn: 14 * 24 * 60 * 60 * 1000,
-        user: userData(user),
-      });
-    }
+    externalAuth({ email, fullName });
   } catch (err) {
     catchError(res, err);
   }
