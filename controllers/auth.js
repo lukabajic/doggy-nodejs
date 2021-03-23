@@ -24,7 +24,7 @@ const userResponse = (user, token) => ({
   user: userData(user),
 });
 
-const externalAuth = async ({ email, ...rest }) => {
+const externalAuth = async ({ res, email, ...rest }) => {
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -88,7 +88,7 @@ exports.google = async (req, res, next) => {
     });
     const { email, name: fullName, phone } = await ticket.getPayload();
 
-    externalAuth({ email, fullName, phone });
+    externalAuth({ res, email, fullName, phone });
   } catch (err) {
     catchError(res, err);
   }
@@ -110,7 +110,7 @@ exports.facebook = async (req, res) => {
     });
     const { name: fullName, email } = await response.json();
 
-    externalAuth({ email, fullName });
+    externalAuth({ res, email, fullName });
   } catch (err) {
     catchError(res, err);
   }
