@@ -11,6 +11,7 @@ require("dotenv").config();
 // import routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const businessRoutes = require("./routes/business");
 
 const MONGO_URL =
   "mongodb+srv://lukabajic23:Zuccher0@cluster0.e8uab.mongodb.net/doggy-app?retryWrites=true&w=majority";
@@ -52,6 +53,7 @@ app.get("/", (req, res) => {
 // listen to routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/business", businessRoutes);
 
 // const options = {
 //   key: fs.readFileSync("key.pem"),

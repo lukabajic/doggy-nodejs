@@ -5,7 +5,7 @@ const { getUserId } = require("../utility/jwt");
 const { getUser, getUserByEmail } = require("../db");
 const Animal = require("../models/animal").default;
 const { catchError, throwError } = require("../utility/errors");
-const userData = require("../utility/userData");
+const { userData } = require("../utility/data");
 const { passwordMail } = require("../utility/sendgrid");
 
 cloudinary.config({

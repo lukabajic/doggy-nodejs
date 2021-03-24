@@ -6,7 +6,7 @@ const querystring = require("querystring");
 const User = require("../models/user");
 const { userExists, getUserByEmail, passwordMatches } = require("../db");
 const { generateToken } = require("../utility/jwt");
-const userData = require("../utility/userData");
+const { userData } = require("../utility/data");
 const { catchError } = require("../utility/errors");
 const { sendVerificationMail } = require("../utility/sendgrid");
 
