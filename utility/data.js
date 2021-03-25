@@ -17,3 +17,10 @@ exports.businessData = (business) => ({
   workingTime: business.workingTime || [],
   services: business.services || [],
 });
+
+exports.businessLessData = (business) => ({
+  businessId: business._id,
+  name: business.name,
+  coordinates: business.coordinates || null,
+  comments: business.comments || [],
+});

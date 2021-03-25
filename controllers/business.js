@@ -1,7 +1,7 @@
 const { catchError } = require("../utility/errors");
 const Business = require("../models/business");
 const { businessExists, getBusiness, getAllBusiness } = require("../db");
-const { businessData } = require("../utility/data");
+const { businessData, businessLessData } = require("../utility/data");
 
 exports.createBusiness = async (req, res) => {
   const { name, type, information, workingTime, services } = req.body;
@@ -46,9 +46,11 @@ exports.getAllBusiness = async (req, res) => {
   try {
     const businessess = await getAllBusiness();
 
+    const result = businessess.map((b) => businessLessData(b));
+
     res.status(200).json({
       statusCode: 200,
-      businessess,
+      businessess: result,
     });
   } catch (err) {
     catchError(res, err);
