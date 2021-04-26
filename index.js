@@ -13,9 +13,8 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const businessRoutes = require("./routes/business");
 
-const MONGO_URL =
-  "mongodb+srv://lukabajic23:Zuccher0@cluster0.e8uab.mongodb.net/doggy-app?retryWrites=true&w=majority";
-const PORT = 8080;
+const mongoUrl = process.env.MONGO_URL;
+const port = process.env.PORT || 8080;
 
 const mongoDBOptions = {
   useNewUrlParser: true,
@@ -61,9 +60,9 @@ app.use("/business", businessRoutes);
 // };
 
 mongoose
-  .connect(MONGO_URL, mongoDBOptions)
+  .connect(mongoUrl, mongoDBOptions)
   .then(() => {
-    app.listen(PORT);
+    app.listen(port);
     // https.createServer(options, app).listen(PORT);
   })
   .catch((err) => {
