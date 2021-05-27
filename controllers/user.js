@@ -35,6 +35,21 @@ exports.verifyUserEmail = async (req, res, next) => {
   }
 };
 
+exports.getUser = async (req, res, next) => {
+  const { userId } = req;
+
+  try {
+    const user = await getUser(userId);
+
+    res.status(201).json({
+      statusCode: 201,
+      user: userData(user),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
 exports.addDog = async (req, res, next) => {
   const { userId } = req;
   const { imageName, ...rest } = req.body;
