@@ -5,6 +5,10 @@ exports.userData = (user) => ({
   phone: user.phone,
   emailVerified: user.emailVerified,
   dogs: user.dogs,
+  followers: user.followers,
+  following: user.following,
+  imageData: user.imageData,
+  imageName: user.imageName,
 });
 
 exports.businessData = (business) => ({

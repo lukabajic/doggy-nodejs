@@ -29,6 +29,22 @@ const userSchema = new Schema({
     type: [dogSchema],
     default: [],
   },
+  followers: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+  },
+  following: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+  },
+  imageData: {
+    type: String,
+    default: undefined,
+  },
+  imageName: {
+    type: String,
+    default: undefined,
+  },
 });
 
 const User = mongoose.model("User", userSchema);
