@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/verify-email/:token", userController.verifyUserEmail);
 
-router.post("/add-animal", isAuth, userController.addAnimal);
+router.post("/add-dog", isAuth, userController.addDog);
 
 router.post("/reset-password", userController.resetPassword);
 

@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary");
 
 const { getUserId } = require("../utility/jwt");
 const { getUser, getUserByEmail } = require("../db");
-const Animal = require("../models/animal").default;
+const Dog = require("../models/dog").default;
 const { catchError, throwError } = require("../utility/errors");
 const { userData } = require("../utility/data");
 const { passwordMail } = require("../utility/sendgrid");
@@ -35,7 +35,7 @@ exports.verifyUserEmail = async (req, res, next) => {
   }
 };
 
-exports.addAnimal = async (req, res, next) => {
+exports.addDog = async (req, res, next) => {
   const { userId } = req;
   const { imageName, ...rest } = req.body;
   const { imageData } = req.files;
@@ -46,12 +46,12 @@ exports.addAnimal = async (req, res, next) => {
     (!imageData || !imageName) && throwError("Please provide an image", 404);
     const image = await cloudinary.uploader.upload(imageData.path);
 
-    const animal = new Animal({ ...rest, imageName, imageUrl: image.url });
+    const dog = new Dog({ ...rest, imageName, imageUrl: image.url });
 
-    user.animals.push(animal);
+    user.dogs.push(dog);
     const result = await user.save();
 
-    await animal.save();
+    await dog.save();
 
     res.status(201).json({
       statusCode: 201,

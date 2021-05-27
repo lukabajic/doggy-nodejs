@@ -1,1 +1,1 @@
-const Animal = require("../models/animal");
+const Dog = require("../models/dog");

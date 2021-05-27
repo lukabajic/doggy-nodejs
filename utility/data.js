@@ -4,7 +4,7 @@ exports.userData = (user) => ({
   fullName: user.fullName,
   phone: user.phone,
   emailVerified: user.emailVerified,
-  animals: user.animals,
+  dogs: user.dogs,
 });
 
 exports.businessData = (business) => ({

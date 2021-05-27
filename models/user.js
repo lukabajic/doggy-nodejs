@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const { animalSchema } = require("./animal");
+const { dogSchema } = require("./dog");
 
 const { Schema } = mongoose;
 
@@ -25,8 +25,8 @@ const userSchema = new Schema({
     type: String,
     default: "",
   },
-  animals: {
-    type: [animalSchema],
+  dogs: {
+    type: [dogSchema],
     default: [],
   },
 });

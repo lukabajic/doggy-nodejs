@@ -58,7 +58,7 @@ const yearAwards = new Schema({
   },
 });
 
-const animalSchema = new Schema({
+const dogschema = new Schema({
   imageUrl: {
     type: String,
     default: "",
@@ -97,9 +97,9 @@ const animalSchema = new Schema({
   },
 });
 
-const Animal = mongoose.model("Animal", animalSchema);
+const Dog = mongoose.model("Dog", dogschema);
 
 module.exports = {
-  animalSchema,
-  default: Animal,
+  dogschema,
+  default: Dog,
 };
