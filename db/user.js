@@ -26,3 +26,10 @@ exports.getUser = async (id) => {
 
   return user;
 };
+
+exports.getUsers = async () => {
+  const users = await User.find({});
+  !users && throwError("No users found in our database.", 404);
+
+  return users;
+};

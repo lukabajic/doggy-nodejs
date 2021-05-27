@@ -15,4 +15,6 @@ router.post("/change-password", isAuth, userController.changePassword);
 
 router.get("/get", isAuth, userController.getUser);
 
+router.get("/get-all", isAuth, userController.getAllUsers);
+
 module.exports = router;

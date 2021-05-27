@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const cloudinary = require("cloudinary");
 
 const { getUserId } = require("../utility/jwt");
-const { getUser, getUserByEmail } = require("../db");
+const { getUser, getUserByEmail, getUsers } = require("../db");
 const Dog = require("../models/dog").default;
 const { catchError, throwError } = require("../utility/errors");
 const { userData } = require("../utility/data");
@@ -44,6 +44,19 @@ exports.getUser = async (req, res, next) => {
     res.status(201).json({
       statusCode: 201,
       user: userData(user),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await getUsers();
+
+    res.status(201).json({
+      statusCode: 201,
+      users: users.map((user) => userData(user)),
     });
   } catch (err) {
     catchError(res, err);
