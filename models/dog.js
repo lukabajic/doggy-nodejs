@@ -59,9 +59,9 @@ const yearAwards = new Schema({
 });
 
 const dogschema = new Schema({
-  imageUrl: {
+  imageData: {
     type: String,
-    default: "",
+    default: "https://source.unsplash.com/288x162?dog",
   },
   imageName: {
     type: String,

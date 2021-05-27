@@ -39,7 +39,7 @@ const userSchema = new Schema({
   },
   imageData: {
     type: String,
-    default: undefined,
+    default: "https://source.unsplash.com/53x53?person",
   },
   imageName: {
     type: String,
