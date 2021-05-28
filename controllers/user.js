@@ -65,16 +65,16 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.addDog = async (req, res, next) => {
   const { userId } = req;
-  const { imageName, ...rest } = req.body;
-  const { imageData } = req.files;
+  // const { imageName, ...rest } = req.body;
+  // const { imageData } = req.files;
 
   try {
     const user = await getUser(userId);
 
-    (!imageData || !imageName) && throwError("Please provide an image", 404);
-    const image = await cloudinary.uploader.upload(imageData.path);
+    // (!imageData || !imageName) && throwError("Please provide an image", 404);
+    // const image = await cloudinary.uploader.upload(imageData.path);
 
-    const dog = new Dog({ ...rest, imageName, imageUrl: image.url });
+    const dog = new Dog({ ...req.body });
 
     user.dogs.push(dog);
     const result = await user.save();

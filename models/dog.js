@@ -58,24 +58,20 @@ const yearAwards = new Schema({
   },
 });
 
-const dogschema = new Schema({
+const dogSchema = new Schema({
   imageData: {
     type: String,
     default: "https://source.unsplash.com/288x162?dog",
   },
   imageName: {
     type: String,
-    default: "",
+    default: undefined,
   },
   name: {
     type: String,
     required: true,
   },
-  type: {
-    type: String,
-    required: true,
-  },
-  birthday: {
+  race: {
     type: String,
     required: true,
   },
@@ -87,6 +83,14 @@ const dogschema = new Schema({
     type: Boolean,
     required: true,
   },
+  size: {
+    type: Number,
+    required: true,
+  },
+  birthday: {
+    type: String,
+    default: "01/01/1977",
+  },
   pedigree: {
     type: pedigreeSchema,
     default: undefined,
@@ -97,9 +101,9 @@ const dogschema = new Schema({
   },
 });
 
-const Dog = mongoose.model("Dog", dogschema);
+const Dog = mongoose.model("Dog", dogSchema);
 
 module.exports = {
-  dogschema,
+  dogSchema,
   default: Dog,
 };
