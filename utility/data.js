@@ -16,6 +16,7 @@ exports.businessData = (business) => ({
   name: business.name,
   image: business.image,
   callout: business.callout,
+  type: business.type,
   dogWalkingInfo: business.dogWalkingInfo,
   skills: business.skills,
   warnings: business.warnings,

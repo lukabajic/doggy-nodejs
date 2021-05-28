@@ -19,9 +19,8 @@ exports.getBusiness = async (id) => {
 exports.getAllBusiness = async () => {
   const businesses = await Business.find({});
   const recommended = await Recommended.find({});
-  !businesses && throwError("Couldn't find any business.", 404);
 
-  return { businesses, recommended: recommended || [] };
+  return { businesses: businesses || [], recommended: recommended || [] };
 };
 
 exports.recommendedExists = async (id) => {
