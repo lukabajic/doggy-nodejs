@@ -15,10 +15,15 @@ exports.businessData = (business) => ({
   businessId: business._id,
   name: business.name,
   image: business.image,
+  callout: business.callout,
+  dogWalkingInfo: business.dogWalkingInfo,
+  skills: business.skills,
+  warnings: business.warnings,
   coordinates: business.coordinates || null,
   comments: business.comments || [],
   information: business.information,
-  workingTime: business.workingTime || [],
+  workingHours: business.workingHours || [],
+  acceptedSize: business.acceptedSize,
   services: business.services || [],
 });
 

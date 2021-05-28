@@ -1,20 +1,22 @@
 const { catchError } = require("../utility/errors");
 const Business = require("../models/business");
-const { businessExists, getBusiness, getAllBusiness } = require("../db");
+const Recommended = require("../models/recommended");
+const {
+  businessExists,
+  getBusiness,
+  getAllBusiness,
+  recommendedExists,
+} = require("../db");
 const { businessData, businessLessData } = require("../utility/data");
 
 exports.createBusiness = async (req, res) => {
-  const { name, type, information, workingTime, services } = req.body;
+  const { name, type } = req.body;
 
   try {
     await businessExists(name, type);
 
     const business = new Business({
-      name,
-      type,
-      information,
-      workingTime,
-      services,
+      ...req.body,
     });
     const result = await business.save();
 
@@ -209,25 +211,44 @@ exports.removeWorkingTime = async (req, res) => {
 };
 
 exports.addWorkingDays = async (req, res) => {
-  const { workingDays, businessId } = req.body;
+  const { workingHours, businessId } = req.body;
 
   try {
     const business = await getBusiness(businessId);
 
-    workingDays.forEach((w) => {
-      const index = business.workingTime.findIndex((i) => i.day === w.day);
+    workingHours.forEach((w) => {
+      const index = business.workingHours.findIndex((i) => i.day === w.day);
       if (index > -1) {
         business.workingTime[index] = w;
         return;
       }
 
-      business.workingTime.push(w);
+      business.workingHours.push(w);
     });
     const result = await business.save();
 
     res.status(201).json({
       statusCode: 201,
       business: businessData(result),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.addRecommended = async (req, res) => {
+  const { businessId } = req.body;
+
+  try {
+    await getBusiness(businessId);
+    await recommendedExists(businessId);
+
+    const recommended = new Recommended({ businessId });
+    const result = await recommended.save();
+
+    res.status(201).json({
+      statusCode: 201,
+      result,
     });
   } catch (err) {
     catchError(res, err);

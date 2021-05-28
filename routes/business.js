@@ -23,14 +23,16 @@ router.delete("/remove-service", isAuth, businessController.removeService);
 
 router.post("/services", isAuth, businessController.addServices);
 
-router.post("/working-day", isAuth, businessController.addWorkingDay);
+router.post("/working-hours", isAuth, businessController.addWorkingDay);
 
 router.delete(
-  "/remove-working-day",
+  "/remove-working-hours",
   isAuth,
   businessController.removeWorkingTime
 );
 
-router.post("/working-days", isAuth, businessController.addWorkingDays);
+router.post("/working-hours-week", isAuth, businessController.addWorkingDays);
+
+router.post("/recommended", isAuth, businessController.addRecommended);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const Business = require("../models/business");
+const Recommended = require("../models/recommended");
 const { throwError } = require("../utility/errors");
 
 exports.businessExists = async (name, type) => {
@@ -22,4 +23,9 @@ exports.getAllBusiness = async () => {
   !businesses && throwError("Couldn't find any business.", 404);
 
   return businesses;
+};
+
+exports.recommendedExists = async (id) => {
+  const recommended = await Recommended.findOne({ businessId: id });
+  recommended && throwError("Recommended with this name already exists.", 409);
 };

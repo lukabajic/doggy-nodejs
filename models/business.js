@@ -2,12 +2,23 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const imageSchema = new Schema({
-  imageData: {
+// const imageSchema = new Schema({
+//   imageData: {
+//     type: String,
+//     required: true,
+//   },
+//   imageName: {
+//     type: String,
+//     required: true,
+//   },
+// });
+
+const acceptedSizeSchema = new Schema({
+  from: {
     type: String,
     required: true,
   },
-  imageName: {
+  to: {
     type: String,
     required: true,
   },
@@ -30,7 +41,7 @@ const commentSchema = new Schema({
   },
 });
 
-const workingTimeSchema = new Schema({
+const workingHoursSchema = new Schema({
   day: {
     type: String,
     default: undefined,
@@ -43,6 +54,10 @@ const workingTimeSchema = new Schema({
     type: String,
     default: undefined,
   },
+  closed: {
+    type: Boolean,
+    default: undefined,
+  },
 });
 
 const serviceSchema = new Schema({
@@ -52,11 +67,37 @@ const serviceSchema = new Schema({
   },
   price: {
     type: Number,
-    required: true,
+    required: undefined,
   },
   description: {
-    type: String,
+    type: Schema.Types.Mixed,
     default: undefined,
+  },
+});
+
+const skillsSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  items: {
+    type: [String],
+    required: true,
+  },
+});
+
+const dogWalkingInfoSchema = new Schema({
+  willingToTravel: {
+    type: String,
+    required: true,
+  },
+  walkLength: {
+    type: String,
+    required: true,
+  },
+  lastMinute: {
+    type: Boolean,
+    required: true,
   },
 });
 
@@ -69,10 +110,6 @@ const businessSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: imageSchema,
-    default: undefined,
-  },
   coordinates: {
     latitude: {
       type: String,
@@ -84,10 +121,6 @@ const businessSchema = new Schema({
     },
   },
   information: {
-    icon: {
-      type: imageSchema,
-      default: undefined,
-    },
     address: {
       type: String,
       required: true,
@@ -104,7 +137,7 @@ const businessSchema = new Schema({
       type: String,
       required: true,
     },
-    website: {
+    web: {
       type: String,
       default: undefined,
     },
@@ -113,13 +146,45 @@ const businessSchema = new Schema({
       required: true,
     },
   },
-  workingTime: {
-    type: [workingTimeSchema],
+  imageData: {
+    type: String,
+    default: "https://source.unsplash.com/288x162?dog",
+  },
+  logo: {
+    type: String,
+    default: "https://source.unsplash.com/40x40?logo",
+  },
+  acceptedSize: {
+    type: acceptedSizeSchema,
+    default: undefined,
+  },
+  workingHours: {
+    type: [workingHoursSchema],
     default: [],
   },
   services: {
     type: [serviceSchema],
     default: [],
+  },
+  servicesWithDescription: {
+    type: Boolean,
+    default: true,
+  },
+  skills: {
+    type: skillsSchema,
+    default: undefined,
+  },
+  dogWalkingInfo: {
+    type: dogWalkingInfoSchema,
+    default: undefined,
+  },
+  callout: {
+    type: String,
+    default: undefined,
+  },
+  warnings: {
+    type: [String],
+    default: undefined,
   },
   comments: {
     type: [commentSchema],
