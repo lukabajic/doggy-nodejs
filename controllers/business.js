@@ -46,13 +46,14 @@ exports.getBusiness = async (req, res) => {
 
 exports.getAllBusiness = async (req, res) => {
   try {
-    const businessess = await getAllBusiness();
+    const { businesses, recommended } = await getAllBusiness();
 
-    const result = businessess.map((b) => businessLessData(b));
+    const result = businesses.map((b) => businessData(b));
 
     res.status(200).json({
       statusCode: 200,
       businessess: result,
+      recommended: recommended.map((r) => r.businessId),
     });
   } catch (err) {
     catchError(res, err);

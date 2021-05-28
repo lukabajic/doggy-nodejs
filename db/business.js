@@ -17,12 +17,11 @@ exports.getBusiness = async (id) => {
 };
 
 exports.getAllBusiness = async () => {
-  const businesses = await Business.find({}).select(
-    "_id name coordinates comments"
-  );
+  const businesses = await Business.find({});
+  const recommended = await Recommended.find({});
   !businesses && throwError("Couldn't find any business.", 404);
 
-  return businesses;
+  return { businesses, recommended: recommended || [] };
 };
 
 exports.recommendedExists = async (id) => {

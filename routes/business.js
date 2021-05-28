@@ -9,7 +9,7 @@ router.put("/create", businessController.createBusiness);
 
 router.get("/get", businessController.getBusiness);
 
-router.get("/get-all", businessController.getAllBusiness);
+router.get("/all", businessController.getAllBusiness);
 
 router.post("/coordinates", businessController.updateCoordinates);
 
