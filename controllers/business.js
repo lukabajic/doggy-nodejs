@@ -79,8 +79,7 @@ exports.updateCoordinates = async (req, res) => {
 };
 
 exports.addComment = async (req, res) => {
-  const { rating, comment, businessId } = req.body;
-  const { userId } = req;
+  const { rating, comment, businessId, userId } = req.body;
 
   try {
     const business = await getBusiness(businessId);
