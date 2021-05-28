@@ -14,7 +14,7 @@ exports.userData = (user) => ({
 exports.businessData = (business) => ({
   businessId: business._id,
   name: business.name,
-  image: business.image,
+  imageData: business.imageData,
   callout: business.callout,
   type: business.type,
   dogWalkingInfo: business.dogWalkingInfo,
