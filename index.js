@@ -12,6 +12,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const businessRoutes = require("./routes/business");
+const postRoutes = require("./routes/post");
 
 const mongoUrl = process.env.MONGO_URL;
 const port = process.env.PORT || 8080;
@@ -53,6 +54,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/business", businessRoutes);
+app.use("/post", postRoutes);
 
 // const options = {
 //   key: fs.readFileSync("key.pem"),

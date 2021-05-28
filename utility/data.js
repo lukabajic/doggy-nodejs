@@ -34,3 +34,13 @@ exports.businessLessData = (business) => ({
   coordinates: business.coordinates || null,
   comments: business.comments || [],
 });
+
+exports.postData = (post) => ({
+  postId: post._id,
+  content: post.content,
+  imageData: post.imageData,
+  likes: post.likes,
+  comments: post.comments,
+  userId: post.userId,
+  createdAt: post.createdAt,
+});
