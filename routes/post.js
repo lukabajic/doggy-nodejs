@@ -5,6 +5,6 @@ const isAuth = require("../utility/isAuth");
 
 const router = express.Router();
 
-router.put("/create", isAuth, postController.create);
+router.post("/create", isAuth, postController.create);
 
 module.exports = router;
