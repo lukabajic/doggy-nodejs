@@ -1,7 +1,7 @@
 const { catchError } = require("../utility/errors");
 const Post = require("../models/post");
 const { postData } = require("../utility/data");
-const { getPosts } = require("../db/post");
+const { getPosts, getPost } = require("../db/post");
 
 exports.create = async (req, res) => {
   const { userId } = req;
@@ -27,6 +27,31 @@ exports.fetchPosts = async (req, res) => {
     res.status(201).json({
       statusCode: 201,
       posts: posts.map((p) => postData(p)),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.like = async (req, res) => {
+  const { userId } = req;
+  const { postId } = req.body;
+
+  try {
+    const post = await getPost(postId);
+
+    const hasLiked = post.likes.find((l) => l === userId);
+
+    if (hasLiked) {
+      post.likes = post.likes.filter((l) => l !== userId);
+    } else {
+      post.likes.push(userId);
+    }
+    const result = await post.save();
+
+    res.status(201).json({
+      statusCode: 201,
+      post: postData(result),
     });
   } catch (err) {
     catchError(res, err);

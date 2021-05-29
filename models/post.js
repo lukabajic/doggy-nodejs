@@ -13,13 +13,6 @@ const postsSchema = new Schema({
   },
 });
 
-const likesSchema = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
-});
-
 const postSchema = new Schema(
   {
     imageData: {
@@ -31,7 +24,7 @@ const postSchema = new Schema(
       default: undefined,
     },
     userId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       required: true,
     },
     content: {
@@ -42,10 +35,7 @@ const postSchema = new Schema(
       type: [postsSchema],
       default: [],
     },
-    likes: {
-      type: [likesSchema],
-      default: [],
-    },
+    likes: [String],
   },
   { timestamps: true }
 );
