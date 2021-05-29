@@ -71,7 +71,7 @@ const dogSchema = new Schema({
     type: String,
     required: true,
   },
-  race: {
+  breed: {
     type: String,
     required: true,
   },
@@ -83,7 +83,7 @@ const dogSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  size: {
+  weights: {
     type: Number,
     required: true,
   },
