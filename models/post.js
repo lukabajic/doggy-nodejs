@@ -35,7 +35,10 @@ const postSchema = new Schema(
       type: [postsSchema],
       default: [],
     },
-    likes: [String],
+    likes: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );
