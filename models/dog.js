@@ -83,7 +83,7 @@ const dogSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  weights: {
+  weight: {
     type: Number,
     required: true,
   },

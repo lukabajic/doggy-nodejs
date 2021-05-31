@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const { dogSchema } = require("./dog");
+
 const { Schema } = mongoose;
 
 // const imageSchema = new Schema({
@@ -189,6 +191,10 @@ const businessSchema = new Schema({
   comments: {
     type: [commentSchema],
     default: [],
+  },
+  dogsForAdoption: {
+    type: [dogSchema],
+    default: undefined,
   },
 });
 

@@ -20,6 +20,7 @@ exports.businessData = (business) => ({
   dogWalkingInfo: business.dogWalkingInfo,
   skills: business.skills,
   warnings: business.warnings,
+  dogsForAdoption: business.dogsForAdoption,
   coordinates: business.coordinates || null,
   comments: business.comments || [],
   information: business.information,

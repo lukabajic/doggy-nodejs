@@ -1,4 +1,4 @@
-const { catchError } = require("../utility/errors");
+const { catchError, throwError } = require("../utility/errors");
 const Business = require("../models/business");
 const Recommended = require("../models/recommended");
 const {
@@ -249,6 +249,35 @@ exports.addRecommended = async (req, res) => {
     res.status(201).json({
       statusCode: 201,
       result,
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.addDogForAdoption = async (req, res) => {
+  const { businessId, dog } = req.body;
+
+  try {
+    const business = await getBusiness(businessId);
+
+    business.type !== "dog-shelter" &&
+      throwError(
+        "Dogs for adoption can be added only to businesses of 'dog-shelter' type.",
+        404
+      );
+
+    if (business.dogsForAdoption) {
+      business.dogsForAdoption.push(dog);
+    } else {
+      business.dogsForAdoption = [dog];
+    }
+
+    const result = await business.save();
+
+    res.status(201).json({
+      statusCode: 201,
+      business: businessData(result),
     });
   } catch (err) {
     catchError(res, err);

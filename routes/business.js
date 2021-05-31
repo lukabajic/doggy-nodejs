@@ -35,4 +35,10 @@ router.post("/working-hours-week", isAuth, businessController.addWorkingDays);
 
 router.post("/recommended", isAuth, businessController.addRecommended);
 
+router.post(
+  "/add-dog-for-adoption",
+  isAuth,
+  businessController.addDogForAdoption
+);
+
 module.exports = router;
