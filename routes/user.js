@@ -17,4 +17,24 @@ router.get("/get", isAuth, userController.getUser);
 
 router.get("/get-all", isAuth, userController.getAllUsers);
 
+router.post("/friend-request", isAuth, userController.friendRequest);
+
+router.post(
+  "/accept-friend-request",
+  isAuth,
+  userController.acceptFriendRequest
+);
+
+router.post(
+  "/decline-friend-request",
+  isAuth,
+  userController.declineFriendRequest
+);
+
+router.post(
+  "/withdraw-friend-request",
+  isAuth,
+  userController.withdrawFriendRequest
+);
+
 module.exports = router;

@@ -133,3 +133,113 @@ exports.changePassword = async (req, res) => {
     catchError(res, err);
   }
 };
+
+exports.acceptFriendRequest = async (req, res) => {
+  const { userId: curUserId } = req;
+  const { userId } = req.body;
+
+  try {
+    const curUser = await getUser(curUserId);
+    const user = await getUser(userId);
+
+    const curUserFollower = curUser.followers.find((f) => f.userId === userId);
+    const userFollowing = user.following.find((f) => f.userId === curUserId);
+
+    (!curUserFollower?.pending || !userFollowing?.pending) &&
+      throwError(
+        "No active friend request with these users has been found.",
+        409
+      );
+
+    curUserFollower.pending = false;
+    userFollowing.pending = false;
+
+    await curUser.save();
+    await user.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      user: userData(user),
+      curUser: userData(curUser),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.declineFriendRequest = async (req, res) => {
+  const { userId: curUserId } = req;
+  const { userId } = req.body;
+
+  try {
+    const curUser = await getUser(curUserId);
+    const user = await getUser(userId);
+
+    curUser.followers = curUser.followers.filter((f) => f.userId !== userId);
+    user.following = user.following.filter((f) => f.userId !== curUserId);
+
+    await curUser.save();
+    await user.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      user: userData(user),
+      curUser: userData(curUser),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.friendRequest = async (req, res) => {
+  const { userId: curUserId } = req;
+  const { userId } = req.body;
+
+  try {
+    const curUser = await getUser(curUserId);
+    const user = await getUser(userId);
+
+    const isFollowing =
+      curUser.following.find((f) => f.userId === userId) ||
+      user.followers.find((f) => f.userId === curUserId);
+    isFollowing && throwError("Request has already been sent out.", 409);
+
+    curUser.following.push({ userId });
+    user.followers.push({ userId: curUserId });
+
+    await curUser.save();
+    await user.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      user: userData(user),
+      curUser: userData(curUser),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};
+
+exports.withdrawFriendRequest = async (req, res) => {
+  const { userId: curUserId } = req;
+  const { userId } = req.body;
+
+  try {
+    const curUser = await getUser(curUserId);
+    const user = await getUser(userId);
+
+    curUser.following = curUser.followers.filter((f) => f.userId !== userId);
+    user.followers = user.following.filter((f) => f.userId !== curUserId);
+
+    await curUser.save();
+    await user.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      user: userData(user),
+      curUser: userData(curUser),
+    });
+  } catch (err) {
+    catchError(res, err);
+  }
+};

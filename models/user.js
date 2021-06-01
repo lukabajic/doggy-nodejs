@@ -4,6 +4,17 @@ const { dogSchema } = require("./dog");
 
 const { Schema } = mongoose;
 
+const followSchema = new Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+  pending: {
+    type: Boolean,
+    default: true,
+  },
+});
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -30,11 +41,11 @@ const userSchema = new Schema({
     default: [],
   },
   followers: {
-    type: [Schema.Types.ObjectId],
+    type: [followSchema],
     default: [],
   },
   following: {
-    type: [Schema.Types.ObjectId],
+    type: [followSchema],
     default: [],
   },
   imageData: {
